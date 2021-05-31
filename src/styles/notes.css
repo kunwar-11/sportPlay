@@ -1,0 +1,40 @@
+.notes {
+  margin-bottom: 2.5rem;
+}
+form {
+  height: fit-content;
+}
+.notesForm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+}
+.inputText {
+  color: var(--black);
+}
+.inputText::-webkit-input-placeholder {
+  color: var(--gray);
+}
+.eachNote {
+  width: inherit;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: fit-content;
+  padding: 1rem;
+  background-color: rgb(252, 252, 244);
+  margin: 0rem 1rem;
+  margin-bottom: 1rem;
+}
+.notes_icon > .MuiSvgIcon-root {
+  margin-right: 0.5rem;
+}
+@media screen and (min-width: 769px) {
+  .eachNote {
+    margin: 1rem 0rem;
+  }
+  .notes {
+    margin: 0rem;
+  }
+}

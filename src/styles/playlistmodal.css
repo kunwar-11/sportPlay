@@ -1,0 +1,55 @@
+.playlist__modal {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  border: 0.5px solid var(--off-white);
+  border-radius: 0.7rem;
+  position: fixed;
+  top: 30%;
+  left: 3%;
+  background-color: var(--white);
+  z-index: 10;
+  box-shadow: 0 0 60px 10px rgba(0, 0, 0, 0.9);
+}
+
+.newPLaylist {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.playlist {
+  display: flex;
+  align-items: center;
+}
+.playlist > label {
+  margin-left: 1rem;
+}
+
+@media screen and (min-width: 769px) {
+  .playlist__modal {
+    max-width: 460px;
+    position: fixed;
+    top: 40%;
+    left: 35%;
+    height: fit-content;
+  }
+}
+@media screen and (max-width: 426px) {
+  .playlist__modal {
+    left: 3%;
+  }
+}
+@media screen and (max-width: 376px) {
+  .playlist__modal {
+    max-width: 350px;
+    left: 3%;
+  }
+}
+@media screen and (max-width: 321px) {
+  .playlist__modal {
+    max-width: 300px;
+    left: 3%;
+  }
+}

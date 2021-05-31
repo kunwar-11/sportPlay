@@ -1,0 +1,21 @@
+.footerBar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  right: 0;
+  z-index: 10;
+  padding: 1rem 0rem;
+  background-color: rgb(252, 252, 244);
+}
+.activePill {
+  color: red;
+  background-color: inherit;
+}
+@media screen and (min-width: 769px) {
+  .footerBar {
+    display: none;
+  }
+}

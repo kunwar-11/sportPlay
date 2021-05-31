@@ -1,0 +1,42 @@
+.videoBar {
+  display: flex;
+  flex-direction: column;
+  width: -webkit-fill-available;
+}
+.videoBar > .videoTitle,
+.videoDetail {
+  margin: 0.5rem 1rem;
+}
+.videoOptions {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.videoLikeBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 0.4rem;
+  flex: 0.4;
+}
+.MuiSvgIcon-root {
+  cursor: pointer;
+}
+
+@media screen and (min-width: 769px) {
+  .videoBar {
+    display: flex;
+    flex-direction: column;
+    width: 853px;
+  }
+  .videoOptions {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .videoTitle,
+  .videoDetail {
+    margin-top: 0.4rem;
+  }
+}

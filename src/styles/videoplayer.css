@@ -1,0 +1,15 @@
+.videoPlayer {
+  width: -webkit-fill-available;
+}
+.player-wrapper {
+  height: 300px;
+}
+@media screen and (min-width: 769px) {
+  .videoPlayer {
+    width: 843px;
+    height: 480px;
+  }
+  .player-wrapper {
+    height: 480px;
+  }
+}

@@ -1,0 +1,22 @@
+.customPlaylist > a > img {
+  width: 100%;
+}
+.customPlaylist {
+  background-color: rgb(252, 252, 244);
+  margin-bottom: 1rem;
+}
+.customPlaylist-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1rem 0rem;
+}
+.customPlaylist-info {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+.divider {
+  width: 100%;
+}
