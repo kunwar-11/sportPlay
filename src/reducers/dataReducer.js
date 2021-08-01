@@ -86,8 +86,6 @@ export const dataReducerFunction = (state, action) => {
             : each
         ),
       };
-    case "EDIT_PLAYLIST_NAME":
-      break;
     case "DELETE_PLAYLIST":
       return {
         ...state,

@@ -10,6 +10,7 @@ import {
 } from "./pages";
 import { Routes, Route } from "react-router-dom";
 import { Navbar } from "./components";
+import { PrivateRoute } from "./util";
 import "./App.css";
 function App() {
   return (
@@ -18,11 +19,14 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/videos/:videoId" element={<Player />} />
-        <Route path="/watchLater" element={<WatchLater />} />
-        <Route path="/likedvideos" element={<LikedVideos />} />
-        <Route path="/playlists" element={<Playlists />} />
-        <Route path="/playlists/:playlistId" element={<PlaylistDetails />} />
-        <Route path="/user" element={<User />} />
+        <PrivateRoute path="/watchLater" element={<WatchLater />} />
+        <PrivateRoute path="/likedvideos" element={<LikedVideos />} />
+        <PrivateRoute path="/playlists" element={<Playlists />} />
+        <PrivateRoute
+          path="/playlists/:playlistId"
+          element={<PlaylistDetails />}
+        />
+        <PrivateRoute path="/user" element={<User />} />
       </Routes>
     </div>
   );

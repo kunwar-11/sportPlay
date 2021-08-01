@@ -8,3 +8,5 @@ export const isInPlayList = (playlist, playId) => {
 export const findVideo = (videoId, videos) => {
   return videos.find((each) => each.playId === videoId);
 };
+
+export const PrivateRoute = ({ path, ...rest }) => {};
