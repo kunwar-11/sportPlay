@@ -7,6 +7,7 @@ import {
   Playlists,
   PlaylistDetails,
   User,
+  Login,
 } from "./pages";
 import { Routes, Route } from "react-router-dom";
 import { Navbar } from "./components";
@@ -27,6 +28,7 @@ function App() {
           element={<PlaylistDetails />}
         />
         <PrivateRoute path="/user" element={<User />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </div>
   );

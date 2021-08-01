@@ -5,3 +5,4 @@ export { LikedVideos } from "./LikedVideos";
 export { Playlists } from "./Playlists";
 export { PlaylistDetails } from "./PlaylistDetails";
 export { User } from "./User";
+export { Login } from "./Login";

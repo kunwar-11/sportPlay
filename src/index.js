@@ -1,9 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import reportWebVitals from "./reportWebVitals";
+import { DataProvider } from "./contexts/DataContext";
+import { AuthProvider } from "./contexts/AuthContext";
 import { BrowserRouter as Router } from "react-router-dom";
-import { DataProvider, AuthProvider } from "./contexts";
+import reportWebVitals from "./reportWebVitals";
+
 ReactDOM.render(
   <React.StrictMode>
     <Router>
