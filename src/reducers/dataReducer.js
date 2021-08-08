@@ -29,7 +29,7 @@ export const dataReducerFunction = (state, action) => {
       return {
         ...state,
         likedVideos: state.likedVideos.filter(
-          (each) => each.playId !== action.payload.playId
+          (each) => each.playId !== action.payload
         ),
       };
     case "ADD_TO_UNLIKED_VIDEOS":

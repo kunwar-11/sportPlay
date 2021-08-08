@@ -1,0 +1,58 @@
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 280px;
+  margin: auto;
+  position: relative;
+  top: 9rem;
+  border-radius: 0.5rem;
+  background-color: rgb(255, 254, 234);
+}
+.login > h1 {
+  padding: 2rem 0rem;
+}
+.password {
+  display: flex;
+  width: 280px;
+  margin: 0.5rem;
+}
+.btn-primary {
+  margin: 1rem 0rem 0.5rem 0rem;
+}
+.password > .inputText {
+  margin-left: 1rem;
+}
+.inputText {
+  border-color: var(--black);
+  margin-bottom: 1rem;
+  width: 90%;
+}
+@media screen and (min-width: 374px) {
+  .login {
+    max-width: 340px;
+  }
+  .password {
+    width: 340px;
+  }
+}
+@media screen and (min-width: 424px) {
+  .login {
+    max-width: 390px;
+  }
+  .password {
+    width: 390px;
+  }
+}
+@media screen and (min-width: 767px) {
+  .login {
+    max-width: 650px;
+  }
+  .password {
+    width: 650px;
+  }
+  .password > .inputText {
+    margin-left: 2rem;
+  }
+}

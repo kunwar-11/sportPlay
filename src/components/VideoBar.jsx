@@ -12,11 +12,15 @@ import { findVideo, isInPlayList } from "../util";
 import "../styles/videobar.css";
 import { useData } from "../contexts/DataContext";
 import PlaylistModal from "./PlaylistModal";
+import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router";
 export const VideoBar = ({ videoId }) => {
   const {
     state: { videos, likedVideos, watchLater, unLikedVideos },
     dispatch,
   } = useData();
+  const { token } = useAuth();
+  const navigate = useNavigate();
   const { title, views, timestamp } = videos.find(
     (each) => each.playId === videoId
   );
@@ -41,12 +45,14 @@ export const VideoBar = ({ videoId }) => {
             />
           ) : (
             <ThumbUpAltOutlined
-              onClick={() =>
-                dispatch({
-                  type: "ADD_TO_LIKED_VIDEOS",
-                  payload: findVideo(videoId, videos),
-                })
-              }
+              onClick={() => {
+                token
+                  ? dispatch({
+                      type: "ADD_TO_LIKED_VIDEOS",
+                      payload: findVideo(videoId, videos),
+                    })
+                  : navigate("/login");
+              }}
             />
           )}
           {isInPlayList(unLikedVideos, videoId) ? (
@@ -60,12 +66,14 @@ export const VideoBar = ({ videoId }) => {
             />
           ) : (
             <ThumbDownAltOutlined
-              onClick={() =>
-                dispatch({
-                  type: "ADD_TO_UNLIKED_VIDEOS",
-                  payload: findVideo(videoId, videos),
-                })
-              }
+              onClick={() => {
+                token
+                  ? dispatch({
+                      type: "ADD_TO_UNLIKED_VIDEOS",
+                      payload: findVideo(videoId, videos),
+                    })
+                  : navigate("/login");
+              }}
             />
           )}
           {isInPlayList(watchLater, videoId) ? (
@@ -77,14 +85,20 @@ export const VideoBar = ({ videoId }) => {
           ) : (
             <WatchLaterOutlined
               onClick={() => {
-                dispatch({
-                  type: "ADD_TO_WATCHLATER",
-                  payload: findVideo(videoId, videos),
-                });
+                token
+                  ? dispatch({
+                      type: "ADD_TO_WATCHLATER",
+                      payload: findVideo(videoId, videos),
+                    })
+                  : navigate("/login");
               }}
             />
           )}
-          <PlaylistAdd onClick={() => setOpenPlaylistModal(true)} />
+          <PlaylistAdd
+            onClick={() =>
+              token ? setOpenPlaylistModal(true) : navigate("/login")
+            }
+          />
         </div>
       </div>
       {openPlaylistModal && (

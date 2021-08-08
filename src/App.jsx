@@ -8,6 +8,7 @@ import {
   PlaylistDetails,
   User,
   Login,
+  Signup,
 } from "./pages";
 import { Routes, Route } from "react-router-dom";
 import { Navbar } from "./components";
@@ -29,6 +30,7 @@ function App() {
         />
         <PrivateRoute path="/user" element={<User />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
     </div>
   );
