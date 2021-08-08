@@ -2,29 +2,42 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import "../styles/login.css";
+import { validation } from "../util";
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const loginHandler = () => {};
+  const [error, setError] = useState({ emailError: "", passwordError: "" });
+  const loginHandler = (e) => {
+    e.preventDefault();
+    if (validation(email, password, setError)) {
+      console.log("yes");
+    }
+  };
   return (
     <form onSubmit={loginHandler} className="login">
       <h1>Login</h1>
-      <input
-        type="text"
-        value={email}
-        placeholder="Enter your Email"
-        onChange={(e) => setEmail(e.target.value)}
-        className="inputText"
-      />
-      <div className="password">
+      <div className="input-container">
         <input
-          type={showPassword ? "text" : "password"}
-          value={password}
-          placeholder="Enter your Password"
-          onChange={(e) => setPassword(e.target.value)}
+          type="text"
+          value={email}
+          placeholder="Enter your Email"
+          onChange={(e) => setEmail(e.target.value)}
           className="inputText"
         />
+        <small className="error">{error.emailError}</small>
+      </div>
+      <div className="password">
+        <div className="input-container">
+          <input
+            type={showPassword ? "text" : "password"}
+            value={password}
+            placeholder="Enter your Password"
+            onChange={(e) => setPassword(e.target.value)}
+            className="inputText"
+          />
+          <small className="error">{error.passwordError}</small>
+        </div>
         <div
           style={{ width: "fit-content", padding: "0.5rem" }}
           onClick={() => {

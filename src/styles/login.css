@@ -13,9 +13,13 @@
 .login > h1 {
   padding: 2rem 0rem;
 }
+.input-container {
+  width: 90%;
+}
 .password {
   display: flex;
-  width: 280px;
+  justify-content: center;
+  width: 90%;
   margin: 0.5rem;
 }
 .btn-primary {
@@ -27,22 +31,18 @@
 .inputText {
   border-color: var(--black);
   margin-bottom: 1rem;
-  width: 90%;
+}
+.error {
+  color: var(--danger);
 }
 @media screen and (min-width: 374px) {
   .login {
     max-width: 340px;
   }
-  .password {
-    width: 340px;
-  }
 }
 @media screen and (min-width: 424px) {
   .login {
     max-width: 390px;
-  }
-  .password {
-    width: 390px;
   }
 }
 @media screen and (min-width: 767px) {
@@ -50,7 +50,7 @@
     max-width: 650px;
   }
   .password {
-    width: 650px;
+    width: 94%;
   }
   .password > .inputText {
     margin-left: 2rem;

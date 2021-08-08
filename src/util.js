@@ -12,6 +12,24 @@ export const findVideo = (videoId, videos) => {
   return videos.find((each) => each.playId === videoId);
 };
 
+export const validation = (email, password, setError) => {
+  let valid = true;
+  if (email.trim()) {
+    setError((prev) => ({ ...prev, emailError: "" }));
+  } else {
+    setError((prev) => ({ ...prev, emailError: "Enter your Email" }));
+    valid = false;
+  }
+  if (password.trim()) {
+    setError((prev) => ({ ...prev, passwordError: "" }));
+  } else {
+    setError((prev) => ({ ...prev, passwordError: "Enter your password" }));
+    valid = false;
+  }
+
+  return valid;
+};
+
 export const PrivateRoute = ({ path, ...rest }) => {
   const { login } = useAuth();
   if (login) {
