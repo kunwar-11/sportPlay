@@ -10,6 +10,9 @@
   border-radius: 0.5rem;
   background-color: rgb(255, 254, 234);
 }
+.signup {
+  top: 2rem;
+}
 .login > h1 {
   padding: 2rem 0rem;
 }
@@ -39,6 +42,9 @@
   .login {
     max-width: 340px;
   }
+  .signup {
+    top: 3rem;
+  }
 }
 @media screen and (min-width: 424px) {
   .login {
@@ -54,5 +60,8 @@
   }
   .password > .inputText {
     margin-left: 2rem;
+  }
+  .signup {
+    top: 5rem;
   }
 }
