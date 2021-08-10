@@ -66,6 +66,24 @@ export const signUpValidation = (credentials, setError) => {
     }));
     valid = false;
   }
+  if (credentials.confirmPassword.trim()) {
+    if (credentials.confirmPassword === credentials.password) {
+      setError((prev) => ({ ...prev, confirmPasswordError: "" }));
+    } else {
+      setError((prev) => ({
+        ...prev,
+        confirmPasswordError: "password does not match",
+      }));
+      valid = false;
+    }
+  } else {
+    setError((prev) => ({
+      ...prev,
+      confirmPasswordError: "Re enter password",
+    }));
+    valid = false;
+  }
+
   return valid;
 };
 

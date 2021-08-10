@@ -13,6 +13,7 @@ export const Signup = () => {
     confirmPassword: "",
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [showReEnteredPassword, setShowReEnteredPassword] = useState(false);
   const [error, setError] = useState({
     firstNameError: "",
     lastNameError: "",
@@ -20,7 +21,8 @@ export const Signup = () => {
     passwordError: "",
     confirmPasswordError: "",
   });
-  const signUpHandler = () => {
+  const signUpHandler = (e) => {
+    e.preventDefault();
     if (signUpValidation(userInput, setError)) {
       return console.log("validated");
     }
@@ -106,10 +108,10 @@ export const Signup = () => {
         <div
           style={{ width: "fit-content", padding: "0.5rem" }}
           onClick={() => {
-            setShowPassword((prev) => !prev);
+            setShowReEnteredPassword((prev) => !prev);
           }}
         >
-          {showPassword ? <VisibilityOff /> : <Visibility />}
+          {showReEnteredPassword ? <VisibilityOff /> : <Visibility />}
         </div>
       </div>
       <button type="submit" className="btn btn-primary">
