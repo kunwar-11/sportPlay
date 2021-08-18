@@ -10,8 +10,9 @@ form {
   align-items: center;
   margin: 1rem;
 }
-.inputText {
+.notesForm > .inputText {
   color: var(--black);
+  margin-bottom: 0;
 }
 .inputText::-webkit-input-placeholder {
   color: var(--gray);

@@ -2,10 +2,9 @@ import React from "react";
 import { Avatar } from "@material-ui/core";
 import "../styles/videocard.css";
 import { Link } from "react-router-dom";
-const VideoCard = (props) => {
-  const { thumbnail, image, title, channel, views, timestamp, playId } =
-    props.each;
-
+const VideoCard = ({
+  each: { thumbnail, image, title, channel, views, date, _id },
+}) => {
   const truncateTitle = (str) => {
     if (str.length > 47) {
       return str.substring(0, 49) + "...";
@@ -14,7 +13,7 @@ const VideoCard = (props) => {
   };
   return (
     <div className="videocard">
-      <Link to={`/videos/${playId}`}>
+      <Link to={`/videos/${_id}`}>
         <div className="videoThumbnail">
           <img src={thumbnail} alt="thumbnail" />
         </div>
@@ -26,7 +25,7 @@ const VideoCard = (props) => {
           <div className="videoStats">
             <small className="text__muted channel">{channel}</small>
             <small className="text__muted">
-              {`${views} views `}.{` ${timestamp} `}
+              {`${views} views `}.{` ${date} `}
             </small>
           </div>
         </div>

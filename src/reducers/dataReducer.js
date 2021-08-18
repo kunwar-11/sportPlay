@@ -2,14 +2,24 @@ import { isInPlayList } from "../util";
 
 export const dataReducerFunction = (state, action) => {
   switch (action.type) {
+    case "LOAD_VIDEOS":
+      return {
+        ...state,
+        videos: action.payload,
+      };
     case "INCREASE_VIEWS":
       return {
         ...state,
         videos: state.videos.map((video) =>
-          video.playId === action.payload
+          video._id === action.payload
             ? { ...video, views: video.views + 1 }
             : video
         ),
+      };
+    case "STATUS":
+      return {
+        ...state,
+        status: action.payload,
       };
     case "ADD_TO_HISTORY":
       return { ...state, history: [...state.history, action.payload] };

@@ -8,22 +8,24 @@ import {
   WatchLater,
   PlaylistAdd,
 } from "@material-ui/icons";
-import { findVideo, isInPlayList } from "../util";
+import { isInPlayList } from "../util";
 import "../styles/videobar.css";
 import { useData } from "../contexts/DataContext";
 import PlaylistModal from "./PlaylistModal";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router";
-export const VideoBar = ({ videoId }) => {
+
+export const VideoBar = ({ video }) => {
+  const { title, views, date, _id } = video;
   const {
-    state: { videos, likedVideos, watchLater, unLikedVideos },
+    state: { likedVideos, watchLater, unLikedVideos },
     dispatch,
   } = useData();
-  const { token } = useAuth();
+  const {
+    state: { token },
+  } = useAuth();
   const navigate = useNavigate();
-  const { title, views, timestamp } = videos.find(
-    (each) => each.playId === videoId
-  );
+
   const [openPlaylistModal, setOpenPlaylistModal] = useState(false);
   return (
     <div className="videoBar">
@@ -33,14 +35,14 @@ export const VideoBar = ({ videoId }) => {
       <div className="videoOptions">
         <div className="videoDetail">
           <p>
-            {`${views} views`} . {timestamp}
+            {`${views} views`} . {date}
           </p>
         </div>
         <div className="videoLikeBar">
-          {isInPlayList(likedVideos, videoId) ? (
+          {isInPlayList(likedVideos, _id) ? (
             <ThumbUp
               onClick={() =>
-                dispatch({ type: "REMOVE_FROM_LIKED_VIDEOS", payload: videoId })
+                dispatch({ type: "REMOVE_FROM_LIKED_VIDEOS", payload: _id })
               }
             />
           ) : (
@@ -49,18 +51,18 @@ export const VideoBar = ({ videoId }) => {
                 token
                   ? dispatch({
                       type: "ADD_TO_LIKED_VIDEOS",
-                      payload: findVideo(videoId, videos),
+                      payload: video,
                     })
                   : navigate("/login");
               }}
             />
           )}
-          {isInPlayList(unLikedVideos, videoId) ? (
+          {isInPlayList(unLikedVideos, _id) ? (
             <ThumbDown
               onClick={() => {
                 dispatch({
                   type: "REMOVE_FROM_UNLIKED_VIDEOS",
-                  payload: videoId,
+                  payload: _id,
                 });
               }}
             />
@@ -70,16 +72,16 @@ export const VideoBar = ({ videoId }) => {
                 token
                   ? dispatch({
                       type: "ADD_TO_UNLIKED_VIDEOS",
-                      payload: findVideo(videoId, videos),
+                      payload: video,
                     })
                   : navigate("/login");
               }}
             />
           )}
-          {isInPlayList(watchLater, videoId) ? (
+          {isInPlayList(watchLater, _id) ? (
             <WatchLater
               onClick={() =>
-                dispatch({ type: "REMOVE_FROM_WATCHLATER", payload: videoId })
+                dispatch({ type: "REMOVE_FROM_WATCHLATER", payload: _id })
               }
             />
           ) : (
@@ -88,7 +90,7 @@ export const VideoBar = ({ videoId }) => {
                 token
                   ? dispatch({
                       type: "ADD_TO_WATCHLATER",
-                      payload: findVideo(videoId, videos),
+                      payload: video,
                     })
                   : navigate("/login");
               }}

@@ -1,24 +1,19 @@
 import React from "react";
 import ReactPlayer from "react-player";
 import { useData } from "../contexts/DataContext";
-import { findVideo } from "../util";
 import { VideoBar } from "./VideoBar";
 import "../styles/videoplayer.css";
-export const VideoPlayer = ({ videoId }) => {
-  const {
-    dispatch,
-    state: { videos },
-  } = useData();
+export const VideoPlayer = ({ video }) => {
+  const { dispatch } = useData();
   const addToHistory = () => {
-    dispatch({ type: "ADD_TO_HISTORY", payload: findVideo(videoId, videos) });
-    dispatch({ type: "INCREASE_VIEWS", payload: videoId });
+    dispatch({ type: "ADD_TO_HISTORY", payload: video });
+    dispatch({ type: "INCREASE_VIEWS", payload: video._id });
   };
-  console.log(findVideo(videoId, videos));
   return (
     <div className="videoPlayer">
       <div className="player-wrapper">
         <ReactPlayer
-          url={`https://www.youtube.com/watch?v=${videoId}`}
+          url={`https://www.youtube.com/watch?v=${video._id}`}
           className="react-player"
           controls
           width="100%"
@@ -27,7 +22,7 @@ export const VideoPlayer = ({ videoId }) => {
           onStart={addToHistory}
         />
       </div>
-      <VideoBar videoId={videoId} />
+      <VideoBar video={video} />
     </div>
   );
 };

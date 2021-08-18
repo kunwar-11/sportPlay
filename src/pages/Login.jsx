@@ -1,17 +1,39 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import "../styles/login.css";
-import { validation } from "../util";
+import { API_URL, setupAuthHeaderForServiceCalls, validation } from "../util";
+import axios from "axios";
+import { useAuth } from "../contexts/AuthContext";
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState({ emailError: "", passwordError: "" });
-  const loginHandler = (e) => {
+  const { state } = useLocation();
+  const navigate = useNavigate();
+  const { dispatch } = useAuth();
+  const loginHandler = async (e) => {
     e.preventDefault();
     if (validation(email, password, setError)) {
-      console.log("yes");
+      try {
+        const {
+          data: { name, token },
+          status,
+        } = await axios.post(`${API_URL}/auth/login`, {
+          email,
+          password,
+        });
+        if (status === 200) {
+          dispatch({ type: "LOGIN", payload: { name, token } });
+          localStorage?.setItem(
+            "UserDetails",
+            JSON.stringify({ name, token, login: true })
+          );
+          setupAuthHeaderForServiceCalls(token);
+          navigate(state?.from ? state?.from : "/");
+        }
+      } catch (error) {}
     }
   };
   return (

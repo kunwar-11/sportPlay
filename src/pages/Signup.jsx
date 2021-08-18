@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
-import { signUpValidation } from "../util";
+import { API_URL, signUpValidation } from "../util";
 import "../styles/login.css";
+import axios from "axios";
 
 export const Signup = () => {
   const [userInput, setUserInput] = useState({
@@ -21,10 +22,23 @@ export const Signup = () => {
     passwordError: "",
     confirmPasswordError: "",
   });
-  const signUpHandler = (e) => {
+  const navigate = useNavigate();
+  const signUpHandler = async (e) => {
     e.preventDefault();
     if (signUpValidation(userInput, setError)) {
-      return console.log("validated");
+      try {
+        const {
+          data: { success },
+        } = await axios.post(`${API_URL}/auth/signup`, {
+          firstName: userInput?.firstName,
+          lastName: userInput?.lastName,
+          email: userInput?.email,
+          password: userInput?.password,
+        });
+        if (success) {
+          navigate("/login");
+        }
+      } catch (error) {}
     }
     return console.log("not validated");
   };

@@ -1,0 +1,20 @@
+export const authReducer = (state, action) => {
+  switch (action.type) {
+    case "LOGIN":
+      return {
+        ...state,
+        name: action.payload.name,
+        token: action.payload.token,
+        login: true,
+      };
+    case "LOGOUT":
+      return {
+        ...state,
+        name: "",
+        token: null,
+        login: false,
+      };
+    default:
+      return state;
+  }
+};

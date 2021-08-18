@@ -4,13 +4,12 @@ import VideoCard from "./VideoCard";
 import "../styles/videolist.css";
 export const VideoList = () => {
   const {
-    state: { videos },
+    state: { videos, status },
   } = useData();
   return (
     <div className="videoList">
-      {videos.map((each) => (
-        <VideoCard each={each} key={each.playId} />
-      ))}
+      {status === "loading" && <h1>Loading...</h1>}
+      {videos && videos.map((each) => <VideoCard each={each} key={each._id} />)}
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import { Navigate, Route } from "react-router";
 import { useAuth } from "./contexts/AuthContext";
-
+import axios from "axios";
 export const isInPlayList = (playlist, playId) => {
   if (playlist.some((each) => each.playId === playId)) {
     return true;
@@ -14,8 +14,15 @@ export const findVideo = (videoId, videos) => {
 
 export const validation = (email, password, setError) => {
   let valid = true;
+  const re =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   if (email.trim()) {
-    setError((prev) => ({ ...prev, emailError: "" }));
+    if (re.test(email)) {
+      setError((prev) => ({ ...prev, emailError: "" }));
+    } else {
+      setError((prev) => ({ ...prev, emailError: "Enter in Correct format" }));
+      valid = false;
+    }
   } else {
     setError((prev) => ({ ...prev, emailError: "Enter your Email" }));
     valid = false;
@@ -87,8 +94,34 @@ export const signUpValidation = (credentials, setError) => {
   return valid;
 };
 
+export const API_URL = "https://lit-cliffs-11509.herokuapp.com";
+
+export function setupAuthHeaderForServiceCalls(token) {
+  if (token) {
+    return (axios.defaults.headers.common["Authorization"] = token);
+  }
+  delete axios.defaults.headers.common["Authorization"];
+}
+
+export function setupAuthExceptionHandler(logoutUser, navigate) {
+  const UNAUTHORIZED = 401;
+  axios.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      if (error?.response?.status === UNAUTHORIZED) {
+        logoutUser();
+        navigate("/login");
+      }
+      return Promise.reject(error);
+    }
+  );
+}
+
 export const PrivateRoute = ({ path, ...rest }) => {
-  const { login } = useAuth();
+  const {
+    state: { login },
+  } = useAuth();
+  console.log(login);
   if (login) {
     return <Route path={path} {...rest} />;
   }
