@@ -7,6 +7,36 @@ export const dataReducerFunction = (state, action) => {
         ...state,
         videos: action.payload,
       };
+    case "LOAD_WATCHLATER":
+      return {
+        ...state,
+        watchLater: action.payload,
+      };
+    case "LOAD_LIKEDVIDEOS":
+      return {
+        ...state,
+        likedVideos: action.payload,
+      };
+    case "LOAD_HISTORY":
+      return {
+        ...state,
+        history: action.payload,
+      };
+    case "LOAD_UNLIKEDVIDEOS":
+      return {
+        ...state,
+        unLikedVideos: action.payload,
+      };
+    case "LOAD_PLAYLIST":
+      return {
+        ...state,
+        playlists: action.payload,
+      };
+    case "LOAD_NOTES":
+      return {
+        ...state,
+        notes: action.payload,
+      };
     case "INCREASE_VIEWS":
       return {
         ...state,
@@ -29,9 +59,9 @@ export const dataReducerFunction = (state, action) => {
       return {
         ...state,
         likedVideos: state.likedVideos.concat(action.payload),
-        unLikedVideos: isInPlayList(state.unLikedVideos, action.payload.playId)
+        unLikedVideos: isInPlayList(state.unLikedVideos, action.payload._id)
           ? state.unLikedVideos.filter(
-              (each) => each.playId !== action.payload.playId
+              (each) => each._id !== action.payload._id
             )
           : state.unLikedVideos,
       };
@@ -39,16 +69,16 @@ export const dataReducerFunction = (state, action) => {
       return {
         ...state,
         likedVideos: state.likedVideos.filter(
-          (each) => each.playId !== action.payload
+          (each) => each._id !== action.payload
         ),
       };
     case "ADD_TO_UNLIKED_VIDEOS":
       return {
         ...state,
         unLikedVideos: state.unLikedVideos.concat(action.payload),
-        likedVideos: isInPlayList(state.likedVideos, action.payload.playId)
+        likedVideos: isInPlayList(state.likedVideos, action.payload._id)
           ? state.likedVideos.filter(
-              (each) => each.playId !== action.payload.playId
+              (each) => each.playId !== action.payload._id
             )
           : state.likedVideos,
       };

@@ -68,7 +68,7 @@ export const Notes = ({ videoId }) => {
         </div>
       </form>
       <div className="notes">
-        {notes.length > 0 ? (
+        {notes && notes.length > 0 ? (
           notes.map((note) => {
             return (
               note.id === videoId && (

@@ -39,7 +39,7 @@ export const VideoBar = ({ video }) => {
           </p>
         </div>
         <div className="videoLikeBar">
-          {isInPlayList(likedVideos, _id) ? (
+          {likedVideos && isInPlayList(likedVideos, _id) ? (
             <ThumbUp
               onClick={() =>
                 dispatch({ type: "REMOVE_FROM_LIKED_VIDEOS", payload: _id })
@@ -57,7 +57,7 @@ export const VideoBar = ({ video }) => {
               }}
             />
           )}
-          {isInPlayList(unLikedVideos, _id) ? (
+          {unLikedVideos && isInPlayList(unLikedVideos, _id) ? (
             <ThumbDown
               onClick={() => {
                 dispatch({
@@ -78,7 +78,7 @@ export const VideoBar = ({ video }) => {
               }}
             />
           )}
-          {isInPlayList(watchLater, _id) ? (
+          {watchLater && isInPlayList(watchLater, _id) ? (
             <WatchLater
               onClick={() =>
                 dispatch({ type: "REMOVE_FROM_WATCHLATER", payload: _id })

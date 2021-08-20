@@ -2,14 +2,14 @@ import { Navigate, Route } from "react-router";
 import { useAuth } from "./contexts/AuthContext";
 import axios from "axios";
 export const isInPlayList = (playlist, playId) => {
-  if (playlist.some((each) => each.playId === playId)) {
+  if (playlist.some((each) => each._id === playId)) {
     return true;
   }
   return false;
 };
 
 export const findVideo = (videoId, videos) => {
-  return videos.find((each) => each.playId === videoId);
+  return videos.find((each) => each._id === videoId);
 };
 
 export const validation = (email, password, setError) => {
@@ -103,25 +103,22 @@ export function setupAuthHeaderForServiceCalls(token) {
   delete axios.defaults.headers.common["Authorization"];
 }
 
-export function setupAuthExceptionHandler(logoutUser, navigate) {
-  const UNAUTHORIZED = 401;
-  axios.interceptors.response.use(
-    (response) => response,
-    (error) => {
-      if (error?.response?.status === UNAUTHORIZED) {
-        logoutUser();
-        navigate("/login");
-      }
-      return Promise.reject(error);
-    }
-  );
-}
+// export function setupAuthExceptionHandler(logoutUser, navigate) {
+//   const UNAUTHORIZED = 401;
+//   axios.interceptors.response.use(undefined, (error) => {
+//     console.log("hi");
+//     if (error?.response?.status === UNAUTHORIZED) {
+//       logoutUser();
+//       navigate("/login");
+//     }
+//     return Promise.reject(error);
+//   });
+// }
 
 export const PrivateRoute = ({ path, ...rest }) => {
   const {
     state: { login },
   } = useAuth();
-  console.log(login);
   if (login) {
     return <Route path={path} {...rest} />;
   }

@@ -18,17 +18,17 @@ export const Login = () => {
     if (validation(email, password, setError)) {
       try {
         const {
-          data: { name, token },
+          data: { name, token, userId },
           status,
         } = await axios.post(`${API_URL}/auth/login`, {
           email,
           password,
         });
         if (status === 200) {
-          dispatch({ type: "LOGIN", payload: { name, token } });
+          dispatch({ type: "LOGIN", payload: { name, token, userId } });
           localStorage?.setItem(
             "UserDetails",
-            JSON.stringify({ name, token, login: true })
+            JSON.stringify({ name, token, userId, login: true })
           );
           setupAuthHeaderForServiceCalls(token);
           navigate(state?.from ? state?.from : "/");
