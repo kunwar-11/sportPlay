@@ -14,6 +14,7 @@ import { useData } from "../contexts/DataContext";
 import PlaylistModal from "./PlaylistModal";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router";
+import { addToLikedVideos } from "../api_calls";
 
 export const VideoBar = ({ video }) => {
   const { title, views, date, _id } = video;
@@ -22,7 +23,7 @@ export const VideoBar = ({ video }) => {
     dispatch,
   } = useData();
   const {
-    state: { token },
+    state: { token, userId },
   } = useAuth();
   const navigate = useNavigate();
 
@@ -47,14 +48,16 @@ export const VideoBar = ({ video }) => {
             />
           ) : (
             <ThumbUpAltOutlined
-              onClick={() => {
-                token
-                  ? dispatch({
-                      type: "ADD_TO_LIKED_VIDEOS",
-                      payload: video,
-                    })
-                  : navigate("/login");
-              }}
+              onClick={() =>
+                addToLikedVideos({
+                  dispatch,
+                  token,
+                  userId,
+                  videoId: _id,
+                  unLikedVideos,
+                  navigate,
+                })
+              }
             />
           )}
           {unLikedVideos && isInPlayList(unLikedVideos, _id) ? (

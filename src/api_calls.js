@@ -1,5 +1,21 @@
 import axios from "axios";
-import { API_URL } from "./util";
+import { API_URL, isInPlayList } from "./util";
+
+//LOADING DATAS
+export const loadVideos = async (dispatch, token) => {
+  try {
+    if (!token) dispatch({ type: "STATUS", payload: "loading" });
+    const {
+      data: { success, videos },
+    } = await axios.get(`${API_URL}/videos`);
+    if (success) {
+      dispatch({ type: "LOAD_VIDEOS", payload: videos });
+      dispatch({ type: "STATUS", payload: "success" });
+    }
+  } catch (error) {
+    dispatch({ type: "STATUS", payload: "error" });
+  }
+};
 
 export const loadLikedvideos = async (dispatch, token, userId, navigate) => {
   if (token) {
@@ -95,17 +111,41 @@ export const loadUnlikedvideos = async (dispatch, token, userId, navigate) => {
     }
   }
 };
-export const loadVideos = async (dispatch) => {
-  try {
-    dispatch({ type: "STATUS", payload: "loading" });
-    const {
-      data: { success, videos },
-    } = await axios.get(`${API_URL}/videos`);
-    if (success) {
-      dispatch({ type: "LOAD_VIDEOS", payload: videos });
-      dispatch({ type: "STATUS", payload: "success" });
-    }
-  } catch (error) {
-    dispatch({ type: "STATUS", payload: "error" });
+
+export const addToLikedVideos = async ({
+  dispatch,
+  token,
+  userId,
+  videoId,
+  unLikedVideos,
+  navigate,
+}) => {
+  if (token) {
+    try {
+      dispatch({ type: "STATUS", payload: "loading" });
+      if (isInPlayList(unLikedVideos, videoId)) {
+        const {
+          data: { success, video },
+        } = await axios.delete(`${API_URL}/unlikedvideos/${userId}/${videoId}`);
+        if (success) {
+          console.log(video);
+        }
+      }
+      const {
+        data: { video },
+        status,
+      } = await axios.post(`${API_URL}/likedvideos/${userId}`, {
+        videoId,
+      });
+      if (status === 201) {
+        dispatch({
+          type: "ADD_TO_LIKED_VIDEOS",
+          payload: video,
+        });
+        dispatch({ type: "STATUS", payload: "success" });
+      }
+      return;
+    } catch (error) {}
+    return navigate("/login");
   }
 };

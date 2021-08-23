@@ -77,9 +77,7 @@ export const dataReducerFunction = (state, action) => {
         ...state,
         unLikedVideos: state.unLikedVideos.concat(action.payload),
         likedVideos: isInPlayList(state.likedVideos, action.payload._id)
-          ? state.likedVideos.filter(
-              (each) => each.playId !== action.payload._id
-            )
+          ? state.likedVideos.filter((each) => each._id !== action.payload._id)
           : state.likedVideos,
       };
     case "REMOVE_FROM_UNLIKED_VIDEOS":

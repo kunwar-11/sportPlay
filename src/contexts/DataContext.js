@@ -31,7 +31,7 @@ export const DataProvider = ({ children }) => {
     state: { userId, token },
   } = useAuth();
   useEffect(() => {
-    loadVideos(dispatch);
+    loadVideos(dispatch, token);
     loadLikedvideos(dispatch, token, userId, navigate);
     loadUnlikedvideos(dispatch, token, userId, navigate);
     loadPlaylists(dispatch, token, userId, navigate);
