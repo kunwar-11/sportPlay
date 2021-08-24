@@ -12,7 +12,7 @@ export const WatchLater = () => {
   return (
     <div className="home">
       <Sidebar />
-      {status === "loading" && <h1>Loading...</h1>}
+      {status === "loading" && !watchLater && <h1>Loading...</h1>}
       {watchLater && status === "success" && (
         <>
           {watchLater.length > 0 ? (

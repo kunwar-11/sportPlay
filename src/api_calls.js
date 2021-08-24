@@ -112,6 +112,8 @@ export const loadUnlikedvideos = async (dispatch, token, userId, navigate) => {
   }
 };
 
+//ADDING TO BACKEND(POST REQ)
+
 export const addToLikedVideos = async ({
   dispatch,
   token,
@@ -145,7 +147,80 @@ export const addToLikedVideos = async ({
         dispatch({ type: "STATUS", payload: "success" });
       }
       return;
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+      dispatch({ type: "STATUS", payload: "error" });
+    }
     return navigate("/login");
   }
+};
+
+export const addToUnlikedVideos = async ({
+  dispatch,
+  token,
+  userId,
+  videoId,
+  likedVideos,
+  navigate,
+}) => {
+  if (token) {
+    try {
+      dispatch({ type: "STATUS", payload: "loading" });
+      if (isInPlayList(likedVideos, videoId)) {
+        const {
+          data: { success, video },
+        } = await axios.delete(`${API_URL}/likedvideos/${userId}/${videoId}`);
+        if (success) {
+          console.log(video);
+        }
+      }
+      const {
+        data: { video },
+        status,
+      } = await axios.post(`${API_URL}/unlikedvideos/${userId}`, {
+        videoId,
+      });
+      if (status === 201) {
+        dispatch({
+          type: "ADD_TO_UNLIKED_VIDEOS",
+          payload: video,
+        });
+        dispatch({ type: "STATUS", payload: "success" });
+      }
+      return;
+    } catch (error) {
+      console.log(error);
+      dispatch({ type: "STATUS", payload: "error" });
+    }
+    return navigate("/login");
+  }
+};
+
+export const addToWatchLater = async ({
+  dispatch,
+  navigate,
+  token,
+  userId,
+  videoId,
+}) => {
+  if (token) {
+    try {
+      dispatch({ type: "STATUS", payload: "loading" });
+      const {
+        data: { video },
+        status,
+      } = await axios.post(`${API_URL}/watchlater/${userId}`, {
+        videoId,
+      });
+      if (status === 201) {
+        dispatch({ type: "ADD_TO_WATCHLATER", payload: video });
+        dispatch({ type: "STATUS", payload: "success" });
+      }
+      return;
+    } catch (error) {
+      console.log(error);
+      dispatch({ type: "STATUS", payload: "error" });
+    }
+  }
+  return navigate("/login");
 };

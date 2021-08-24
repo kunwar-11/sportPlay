@@ -54,7 +54,7 @@ export const Player = () => {
   }, [dispatch, userId]);
   return (
     <div className="player">
-      {status === "loading" && <h1>Loading...</h1>}
+      {status === "loading" && !video && <h1>Loading...</h1>}
       {video && (
         <>
           <VideoPlayer video={video} />

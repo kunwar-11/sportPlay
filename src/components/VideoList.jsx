@@ -8,7 +8,7 @@ export const VideoList = () => {
   } = useData();
   return (
     <div className="videoList">
-      {status === "loading" && <h1>Loading...</h1>}
+      {status === "loading" && !videos && <h1>Loading...</h1>}
       {videos && videos.map((each) => <VideoCard each={each} key={each._id} />)}
     </div>
   );

@@ -14,7 +14,11 @@ import { useData } from "../contexts/DataContext";
 import PlaylistModal from "./PlaylistModal";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router";
-import { addToLikedVideos } from "../api_calls";
+import {
+  addToLikedVideos,
+  addToUnlikedVideos,
+  addToWatchLater,
+} from "../api_calls";
 
 export const VideoBar = ({ video }) => {
   const { title, views, date, _id } = video;
@@ -71,14 +75,16 @@ export const VideoBar = ({ video }) => {
             />
           ) : (
             <ThumbDownAltOutlined
-              onClick={() => {
-                token
-                  ? dispatch({
-                      type: "ADD_TO_UNLIKED_VIDEOS",
-                      payload: video,
-                    })
-                  : navigate("/login");
-              }}
+              onClick={() =>
+                addToUnlikedVideos({
+                  dispatch,
+                  token,
+                  userId,
+                  videoId: _id,
+                  likedVideos,
+                  navigate,
+                })
+              }
             />
           )}
           {watchLater && isInPlayList(watchLater, _id) ? (
@@ -89,14 +95,15 @@ export const VideoBar = ({ video }) => {
             />
           ) : (
             <WatchLaterOutlined
-              onClick={() => {
-                token
-                  ? dispatch({
-                      type: "ADD_TO_WATCHLATER",
-                      payload: video,
-                    })
-                  : navigate("/login");
-              }}
+              onClick={() =>
+                addToWatchLater({
+                  dispatch,
+                  navigate,
+                  token,
+                  userId,
+                  videoId: _id,
+                })
+              }
             />
           )}
           <PlaylistAdd
