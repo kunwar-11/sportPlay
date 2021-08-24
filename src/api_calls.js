@@ -224,3 +224,37 @@ export const addToWatchLater = async ({
   }
   return navigate("/login");
 };
+
+//DELETE
+
+export const removeVideoFromPlaylist = async ({
+  dispatch,
+  navigate,
+  token,
+  userId,
+  videoId,
+  type,
+  genre,
+}) => {
+  if (token) {
+    try {
+      dispatch({ type: "STATUS", payload: "loading" });
+      const {
+        data: {
+          video: { _id },
+          success,
+        },
+      } = await axios.delete(`${API_URL}/${genre}/${userId}/${videoId}`);
+      if (success === true) {
+        console.log(_id);
+        dispatch({ type: type, payload: _id });
+        dispatch({ type: "STATUS", payload: "success" });
+      }
+    } catch (error) {
+      console.log(error);
+      dispatch({ type: "STATUS", payload: "error" });
+    }
+    return;
+  }
+  return navigate("/login");
+};

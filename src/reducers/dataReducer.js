@@ -84,7 +84,7 @@ export const dataReducerFunction = (state, action) => {
       return {
         ...state,
         unLikedVideos: state.unLikedVideos.filter(
-          (each) => each.playId !== action.payload
+          (each) => each._id !== action.payload
         ),
       };
     case "ADD_TO_WATCHLATER":
@@ -96,7 +96,7 @@ export const dataReducerFunction = (state, action) => {
       return {
         ...state,
         watchLater: state.watchLater.filter(
-          (each) => each.playId !== action.payload.playId
+          (each) => each._id !== action.payload
         ),
       };
     case "CREATE_PLAYLIST":
@@ -105,8 +105,8 @@ export const dataReducerFunction = (state, action) => {
       return {
         ...state,
         playlists: state.playlists.map((each) =>
-          each.id === action.payload.id
-            ? { ...each, list: each.list.concat(action.payload.video) }
+          each._id === action.payload.playlistId
+            ? { ...each, videos: each.videos.concat(action.payload.video) }
             : each
         ),
       };
@@ -114,11 +114,11 @@ export const dataReducerFunction = (state, action) => {
       return {
         ...state,
         playlists: state.playlists.map((each) =>
-          each.id === action.payload.id
+          each._id === action.payload.playlistId
             ? {
                 ...each,
-                list: each.list.filter(
-                  (data) => data.playId !== action.payload.playId
+                videos: each.videos.filter(
+                  (data) => data._id !== action.payload.videoId
                 ),
               }
             : each

@@ -18,6 +18,7 @@ import {
   addToLikedVideos,
   addToUnlikedVideos,
   addToWatchLater,
+  removeVideoFromPlaylist,
 } from "../api_calls";
 
 export const VideoBar = ({ video }) => {
@@ -47,7 +48,15 @@ export const VideoBar = ({ video }) => {
           {likedVideos && isInPlayList(likedVideos, _id) ? (
             <ThumbUp
               onClick={() =>
-                dispatch({ type: "REMOVE_FROM_LIKED_VIDEOS", payload: _id })
+                removeVideoFromPlaylist({
+                  dispatch,
+                  navigate,
+                  token,
+                  userId,
+                  videoId: _id,
+                  type: "REMOVE_FROM_LIKED_VIDEOS",
+                  genre: "likedvideos",
+                })
               }
             />
           ) : (
@@ -66,12 +75,17 @@ export const VideoBar = ({ video }) => {
           )}
           {unLikedVideos && isInPlayList(unLikedVideos, _id) ? (
             <ThumbDown
-              onClick={() => {
-                dispatch({
+              onClick={() =>
+                removeVideoFromPlaylist({
+                  dispatch,
+                  navigate,
+                  token,
+                  userId,
+                  videoId: _id,
                   type: "REMOVE_FROM_UNLIKED_VIDEOS",
-                  payload: _id,
-                });
-              }}
+                  genre: "unlikedvideos",
+                })
+              }
             />
           ) : (
             <ThumbDownAltOutlined
@@ -90,7 +104,15 @@ export const VideoBar = ({ video }) => {
           {watchLater && isInPlayList(watchLater, _id) ? (
             <WatchLater
               onClick={() =>
-                dispatch({ type: "REMOVE_FROM_WATCHLATER", payload: _id })
+                removeVideoFromPlaylist({
+                  dispatch,
+                  navigate,
+                  token,
+                  userId,
+                  videoId: _id,
+                  type: "REMOVE_FROM_WATCHLATER",
+                  genre: "watchlater",
+                })
               }
             />
           ) : (
