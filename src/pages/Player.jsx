@@ -58,7 +58,7 @@ export const Player = () => {
       {video && (
         <>
           <VideoPlayer video={video} />
-          <Notes video={video} />
+          <Notes videoId={video._id} />
           <FooterBar />
         </>
       )}

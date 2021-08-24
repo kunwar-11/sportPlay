@@ -1,66 +1,124 @@
 import { Delete, Edit } from "@material-ui/icons";
+import axios from "axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
+import { useAuth } from "../contexts/AuthContext";
 import { useData } from "../contexts/DataContext";
 import "../styles/notes.css";
+import { API_URL } from "../util";
 
-const Note = ({ note, setNote, setIsEdit, setEdit }) => {
+const Note = ({ note, setText, setIsEdit, setEditId }) => {
   const { dispatch } = useData();
+  const {
+    state: { userId },
+  } = useAuth();
+  const deleteNote = async () => {
+    try {
+      dispatch({ type: "STATUS", payload: "loading" });
+      const { data } = await axios.delete(
+        `${API_URL}/notes/${userId}/${note._id}`
+      );
+      if (data.success) {
+        dispatch({ type: "DELETE_NOTE", payload: data.note._id });
+        dispatch({ type: "STATUS", payload: "success" });
+      }
+    } catch (error) {
+      console.log(error);
+      dispatch({ type: "STATUS", payload: "success" });
+    }
+  };
   return (
     <div className="eachNote">
       <div style={{ width: "inherit" }}>
-        <p>{note.note}</p>
+        <p>{note.text}</p>
       </div>
       <div className="notes_icon">
         <Edit
           onClick={() => {
             setIsEdit(true);
-            setNote(note.note);
-            setEdit(note.noteId);
+            setText(note.text);
+            setEditId(note._id);
           }}
         />
-        <Delete
-          onClick={() =>
-            dispatch({ type: "DELETE_NOTE", payload: note.noteId })
-          }
-        />
+        <Delete onClick={deleteNote} />
       </div>
     </div>
   );
 };
-let noteId = 1234;
 export const Notes = ({ videoId }) => {
-  const [note, setNote] = useState("");
+  const [text, setText] = useState("");
   const [isEdit, setIsEdit] = useState(false);
-  const [edit, setEdit] = useState(null);
+  const [editId, setEditId] = useState(null);
   const {
     state: { notes },
     dispatch,
   } = useData();
-  const noteAdditionHandler = (e) => {
+  const {
+    state: { userId, token },
+  } = useAuth();
+  const navigate = useNavigate();
+  const noteAdditionHandler = async (e) => {
     e.preventDefault();
-    dispatch({
-      type: "ADD_NOTE",
-      payload: { noteId: ++noteId, id: videoId, note: note },
-    });
-    setNote("");
+    try {
+      dispatch({ type: "STATUS", payload: "loading" });
+      const {
+        data: { note },
+        status,
+      } = await axios.post(`${API_URL}/notes/${userId}`, {
+        videoId,
+        text,
+      });
+      if (status === 201) {
+        dispatch({
+          type: "ADD_NOTE",
+          payload: note,
+        });
+        setText("");
+        dispatch({ type: "STATUS", payload: "success" });
+      }
+    } catch (error) {
+      console.log(error);
+      dispatch({ type: "STATUS", payload: "error" });
+    }
   };
-  const editNoteHandler = (e) => {
+  const editNoteHandler = async (e) => {
     e.preventDefault();
-    dispatch({ type: "EDIT_NOTE", payload: { id: edit, note: note } });
-    setIsEdit(false);
-    setNote("");
-    setEdit(null);
+    try {
+      dispatch({ type: "STATUS", payload: "loading" });
+      const {
+        data: { note, success },
+      } = await axios.post(`${API_URL}/notes/${userId}/${editId}`, {
+        text,
+      });
+      if (success) {
+        dispatch({ type: "EDIT_NOTE", payload: { id: editId, note } });
+        setIsEdit(false);
+        setText("");
+        setEditId(null);
+        dispatch({ type: "STATUS", payload: "success" });
+      }
+    } catch (error) {
+      dispatch({ type: "STATUS", payload: "error" });
+    }
   };
   return (
     <div className="notes">
-      <form onSubmit={isEdit ? editNoteHandler : noteAdditionHandler}>
+      <form
+        onSubmit={
+          token
+            ? isEdit
+              ? editNoteHandler
+              : noteAdditionHandler
+            : navigate("/login")
+        }
+      >
         <div className="notesForm">
           <input
             type="text"
             className="inputText"
             placeholder="enter your note"
-            onChange={(e) => setNote(e.target.value)}
-            value={note}
+            onChange={(e) => setText(e.target.value)}
+            value={text}
           />
           <button type="submit" className="btn btn-primary">
             ADD
@@ -71,13 +129,13 @@ export const Notes = ({ videoId }) => {
         {notes && notes.length > 0 ? (
           notes.map((note) => {
             return (
-              note.id === videoId && (
+              note.videoId === videoId && (
                 <Note
                   note={note}
-                  key={note.noteId}
-                  setNote={setNote}
+                  key={note._id}
+                  setText={setText}
                   setIsEdit={setIsEdit}
-                  setEdit={setEdit}
+                  setEditId={setEditId}
                 />
               )
             );

@@ -136,14 +136,14 @@ export const dataReducerFunction = (state, action) => {
     case "DELETE_NOTE":
       return {
         ...state,
-        notes: state.notes.filter((note) => note.noteId !== action.payload),
+        notes: state.notes.filter((note) => note._id !== action.payload),
       };
     case "EDIT_NOTE":
       return {
         ...state,
         notes: state.notes.map((each) => {
-          return each.noteId === action.payload.id
-            ? { ...each, note: action.payload.note }
+          return each._id === action.payload.id
+            ? { ...each, text: action.payload.note.text }
             : each;
         }),
       };
