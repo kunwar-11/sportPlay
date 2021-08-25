@@ -1,20 +1,42 @@
 import { Delete } from "@material-ui/icons";
+import axios from "axios";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FooterBar, Sidebar } from "../components";
+import { useAuth } from "../contexts/AuthContext";
 import { useData } from "../contexts/DataContext";
 import "../styles/playlist.css";
+import { API_URL } from "../util";
 export const Playlists = () => {
   const {
     state: { playlists, status },
     dispatch,
   } = useData();
-
+  const {
+    state: { userId, token },
+  } = useAuth();
+  const deletePlaylist = async (playlistId) => {
+    try {
+      dispatch({ type: "STATUS", payload: "loading" });
+      const {
+        data,
+        data: { success },
+      } = await axios.delete(`${API_URL}/playlists/${userId}/${playlistId}`);
+      if (success) {
+        dispatch({ type: "DELETE_PLAYLIST", payload: data.playlistId });
+        dispatch({ type: "STATUS", payload: "success" });
+      }
+    } catch (error) {
+      console.log(error);
+      dispatch({ type: "STATUS", payload: "error" });
+    }
+  };
+  const navigate = useNavigate();
   return (
     <div className="home">
       <Sidebar />
       {status === "loading" && !playlists && <h1>Loading...</h1>}
-      {playlists && status === "success" && (
+      {playlists && (
         <>
           {playlists.length > 0 ? (
             <div className="videoList">
@@ -49,10 +71,9 @@ export const Playlists = () => {
                       <div>
                         <Delete
                           onClick={() =>
-                            dispatch({
-                              type: "DELETE_PLAYLIST",
-                              payload: each._id,
-                            })
+                            token
+                              ? deletePlaylist(each._id)
+                              : navigate("/login")
                           }
                         />
                       </div>

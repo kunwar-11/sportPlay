@@ -13,15 +13,16 @@ export const WatchLater = () => {
     <div className="home">
       <Sidebar />
       {status === "loading" && !watchLater && <h1>Loading...</h1>}
-      {watchLater && status === "success" && (
+      {watchLater && (
         <>
           {watchLater.length > 0 ? (
             <div className="videoList">
-              {watchLater.map((each, index) => (
+              {watchLater.map((each) => (
                 <PlaylistCard
                   each={each}
-                  key={index}
+                  key={each._id}
                   type={"REMOVE_FROM_WATCHLATER"}
+                  genre="watchlater"
                 />
               ))}
             </div>

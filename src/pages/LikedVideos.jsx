@@ -12,7 +12,7 @@ export const LikedVideos = () => {
     <div className="home">
       <Sidebar />
       {status === "loading" && <h1>Loading...</h1>}
-      {likedVideos && status === "success" && (
+      {likedVideos && (
         <>
           {likedVideos.length > 0 ? (
             <div className="videoList">
@@ -21,6 +21,7 @@ export const LikedVideos = () => {
                   each={each}
                   key={index}
                   type={"REMOVE_FROM_LIKED_VIDEOS"}
+                  genre="likedvideos"
                 />
               ))}
             </div>

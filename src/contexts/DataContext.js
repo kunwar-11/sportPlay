@@ -20,6 +20,7 @@ const initialState = {
   watchLater: null,
   history: null,
   playlists: null,
+  currentPlaylist: null,
   notes: [],
   status: "",
 };

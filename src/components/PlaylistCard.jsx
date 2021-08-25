@@ -1,13 +1,22 @@
 import { Avatar } from "@material-ui/core";
 import { Delete } from "@material-ui/icons";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { removeVideoFromPlaylist } from "../api_calls";
+import { useAuth } from "../contexts/AuthContext";
 import { useData } from "../contexts/DataContext";
 import "../styles/playlistcard.css";
-const PlaylistCard = (props) => {
-  const { thumbnail, image, title, channel, views, timestamp, playId } =
-    props.each;
+const PlaylistCard = ({
+  each: { thumbnail, image, title, channel, views, date, _id },
+  type,
+  genre,
+  playlistId,
+}) => {
   const { dispatch } = useData();
+  const {
+    state: { token, userId },
+  } = useAuth();
+  const navigate = useNavigate();
   const truncateTitle = (str) => {
     if (str.length > 47) {
       return str.substring(0, 49) + "...";
@@ -16,7 +25,7 @@ const PlaylistCard = (props) => {
   };
   return (
     <div className="videocard">
-      <Link to={`/videos/${playId}`}>
+      <Link to={`/videos/${_id}`}>
         <div className="videoThumbnail">
           <img src={thumbnail} alt="thumbnail" />
         </div>
@@ -29,15 +38,21 @@ const PlaylistCard = (props) => {
             <div className="videoStats">
               <small className="text__muted channel">{channel}</small>
               <small className="text__muted">
-                {`${views} views `}.{` ${timestamp} `}
+                {`${views} views `}.{` ${date} `}
               </small>
             </div>
             <div className="deleteIcon">
               <Delete
                 onClick={() =>
-                  dispatch({
-                    type: props.type,
-                    payload: { playId: playId, id: props.id },
+                  removeVideoFromPlaylist({
+                    dispatch,
+                    navigate,
+                    token,
+                    userId,
+                    videoId: _id,
+                    type,
+                    genre,
+                    playlistId,
                   })
                 }
               />

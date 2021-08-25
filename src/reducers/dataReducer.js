@@ -101,6 +101,8 @@ export const dataReducerFunction = (state, action) => {
       };
     case "CREATE_PLAYLIST":
       return { ...state, playlists: state.playlists.concat(action.payload) };
+    case "CURRENT_PLAYLIST":
+      return { ...state, currentPlaylist: action.payload };
     case "ADD_TO_PLAYLIST":
       return {
         ...state,
@@ -123,12 +125,18 @@ export const dataReducerFunction = (state, action) => {
               }
             : each
         ),
+        currentPlaylist: {
+          ...state.currentPlaylist,
+          videos: state.currentPlaylist.videos.filter(
+            (each) => each._id !== action.payload.videoId
+          ),
+        },
       };
     case "DELETE_PLAYLIST":
       return {
         ...state,
         playlists: state.playlists.filter(
-          (playlist) => playlist.id !== action.payload
+          (playlist) => playlist._id !== action.payload
         ),
       };
     case "ADD_NOTE":
@@ -146,6 +154,11 @@ export const dataReducerFunction = (state, action) => {
             ? { ...each, text: action.payload.note.text }
             : each;
         }),
+      };
+    case "PLAYLIST_DETAILS_CLEANUP":
+      return {
+        ...state,
+        currentPlaylist: null,
       };
     default:
       break;

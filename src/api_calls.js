@@ -235,10 +235,27 @@ export const removeVideoFromPlaylist = async ({
   videoId,
   type,
   genre,
+  playlistId,
 }) => {
   if (token) {
     try {
       dispatch({ type: "STATUS", payload: "loading" });
+      if (playlistId) {
+        const { data } = await axios.delete(
+          `${API_URL}/${genre}/${userId}/${playlistId}/${videoId}`
+        );
+        if (data.success) {
+          console.log(data.playlistId, data.videoId);
+          console.log(type);
+
+          dispatch({
+            type: type,
+            payload: { playlistId: data.playlistId, videoId: data.videoId },
+          });
+          dispatch({ type: "STATUS", payload: "success" });
+        }
+        return;
+      }
       const {
         data: {
           video: { _id },
@@ -246,6 +263,7 @@ export const removeVideoFromPlaylist = async ({
         },
       } = await axios.delete(`${API_URL}/${genre}/${userId}/${videoId}`);
       if (success === true) {
+        console.log(playlistId);
         console.log(_id);
         dispatch({ type: type, payload: _id });
         dispatch({ type: "STATUS", payload: "success" });
