@@ -12,7 +12,7 @@ export const Login = () => {
   const [error, setError] = useState({ emailError: "", passwordError: "" });
   const { state } = useLocation();
   const navigate = useNavigate();
-  const { dispatch } = useAuth();
+  const { authDispatch } = useAuth();
   const loginHandler = async (e) => {
     e.preventDefault();
     if (validation(email, password, setError)) {
@@ -25,7 +25,7 @@ export const Login = () => {
           password,
         });
         if (status === 200) {
-          dispatch({ type: "LOGIN", payload: { name, token, userId } });
+          authDispatch({ type: "LOGIN", payload: { name, token, userId } });
           localStorage?.setItem(
             "UserDetails",
             JSON.stringify({ name, token, userId, login: true })

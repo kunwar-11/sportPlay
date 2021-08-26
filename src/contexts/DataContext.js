@@ -21,6 +21,7 @@ const initialState = {
   history: null,
   playlists: null,
   currentPlaylist: null,
+  currentVideo: null,
   notes: [],
   status: "",
 };

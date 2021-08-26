@@ -37,6 +37,11 @@ export const dataReducerFunction = (state, action) => {
         ...state,
         notes: action.payload,
       };
+    case "CURRENT_VIDEO":
+      return {
+        ...state,
+        currentVideo: action.payload,
+      };
     case "INCREASE_VIEWS":
       return {
         ...state,
@@ -45,6 +50,10 @@ export const dataReducerFunction = (state, action) => {
             ? { ...video, views: video.views + 1 }
             : video
         ),
+        currentVideo: state.currentVideo && {
+          ...state.currentVideo,
+          views: state.currentVideo.views + 1,
+        },
       };
     case "STATUS":
       return {
@@ -54,7 +63,10 @@ export const dataReducerFunction = (state, action) => {
     case "ADD_TO_HISTORY":
       return { ...state, history: [...state.history, action.payload] };
     case "REMOVE_FROM_HISTORY":
-      break;
+      return {
+        ...state,
+        history: state.history.filter((each) => each._id !== action.payload),
+      };
     case "ADD_TO_LIKED_VIDEOS":
       return {
         ...state,
@@ -159,6 +171,11 @@ export const dataReducerFunction = (state, action) => {
       return {
         ...state,
         currentPlaylist: null,
+      };
+    case "CURRENT_VIDEO_CLEANUP":
+      return {
+        ...state,
+        currentVideo: null,
       };
     default:
       break;

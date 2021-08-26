@@ -4,19 +4,17 @@ import { VideoPlayer, Notes, FooterBar } from "../components";
 import axios from "axios";
 import "../styles/player.css";
 import { API_URL } from "../util";
-import { useState } from "react";
 import { useData } from "../contexts/DataContext";
 import { useAuth } from "../contexts/AuthContext";
 export const Player = () => {
   const { videoId } = useParams();
   const {
-    state: { status },
+    state: { status, currentVideo },
     dispatch,
   } = useData();
   const {
     state: { userId },
   } = useAuth();
-  const [video, setVideo] = useState(null);
   useEffect(() => {
     (async () => {
       try {
@@ -25,13 +23,17 @@ export const Player = () => {
           data: { success, video },
         } = await axios.get(`${API_URL}/videos/${videoId}`);
         if (success) {
-          setVideo(video);
+          dispatch({ type: "CURRENT_VIDEO", payload: video });
           dispatch({ type: "STATUS", payload: "success" });
         }
       } catch (error) {
         dispatch({ type: "STATUS", payload: "error" });
       }
     })();
+
+    return () => {
+      dispatch({ type: "CURRENT_VIDEO_CLEANUP" });
+    };
   }, [dispatch, videoId]);
   useEffect(() => {
     (async () => {
@@ -54,11 +56,11 @@ export const Player = () => {
   }, [dispatch, userId]);
   return (
     <div className="player">
-      {status === "loading" && !video && <h1>Loading...</h1>}
-      {video && (
+      {status === "loading" && !currentVideo && <h1>Loading...</h1>}
+      {currentVideo && (
         <>
-          <VideoPlayer video={video} />
-          <Notes videoId={video._id} />
+          <VideoPlayer video={currentVideo} />
+          <Notes videoId={currentVideo._id} />
           <FooterBar />
         </>
       )}

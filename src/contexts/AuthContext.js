@@ -16,7 +16,7 @@ const initialState = {
 };
 
 export const AuthProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(authReducer, initialState);
+  const [state, authDispatch] = useReducer(authReducer, initialState);
   //const navigate = useNavigate();
   if (initialState.token) {
     setupAuthHeaderForServiceCalls(initialState.token);
@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }) => {
   //   setupAuthHeaderForServiceCalls(null);
   // };
   return (
-    <AuthContext.Provider value={{ state, dispatch }}>
+    <AuthContext.Provider value={{ state, authDispatch }}>
       {children}
     </AuthContext.Provider>
   );
