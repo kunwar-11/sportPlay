@@ -128,7 +128,7 @@ export const Signup = () => {
       <div className="password">
         <div className="input-container">
           <input
-            type={showPassword ? "text" : "password"}
+            type={showReEnteredPassword ? "text" : "password"}
             value={userInput.confirmPassword}
             placeholder="Re Enter your Password"
             onChange={(e) =>
