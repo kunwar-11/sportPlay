@@ -137,7 +137,7 @@ export const dataReducerFunction = (state, action) => {
               }
             : each
         ),
-        currentPlaylist: {
+        currentPlaylist: state.currentPlaylist && {
           ...state.currentPlaylist,
           videos: state.currentPlaylist.videos.filter(
             (each) => each._id !== action.payload.videoId
