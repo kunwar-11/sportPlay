@@ -1,5 +1,6 @@
 import { Navigate, Route } from "react-router";
 import { useAuth } from "./contexts/AuthContext";
+import { toast } from "react-toastify";
 import axios from "axios";
 export const isInPlayList = (playlist, playId) => {
   if (playlist.some((each) => each._id === playId)) {
@@ -11,7 +12,19 @@ export const isInPlayList = (playlist, playId) => {
 export const findVideo = (videoId, videos) => {
   return videos.find((each) => each._id === videoId);
 };
-
+export const navigateToLogin = (navigate) => {
+  toast.error(`Session Expired Please Login To Continue`, {
+    position: "bottom-right",
+    autoClose: 3000,
+    theme: "dark",
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
+  navigate("/login");
+};
 export const validation = (email, password, setError) => {
   let valid = true;
   const re =

@@ -13,7 +13,7 @@ export const Player = () => {
     dispatch,
   } = useData();
   const {
-    state: { userId },
+    state: { userId, token },
   } = useAuth();
   useEffect(() => {
     (async () => {
@@ -37,23 +37,25 @@ export const Player = () => {
   }, [dispatch, videoId]);
   useEffect(() => {
     (async () => {
-      try {
-        dispatch({ type: "STATUS", payload: "loading" });
-        const {
-          data: {
-            notes: { notes },
-          },
-          status,
-        } = await axios.get(`${API_URL}/notes/${userId}`);
-        if (status === 200) {
-          dispatch({ type: "LOAD_NOTES", payload: notes });
-          dispatch({ type: "STATUS", payload: "success" });
+      if (token) {
+        try {
+          dispatch({ type: "STATUS", payload: "loading" });
+          const {
+            data: {
+              notes: { notes },
+            },
+            status,
+          } = await axios.get(`${API_URL}/notes/${userId}`);
+          if (status === 200) {
+            dispatch({ type: "LOAD_NOTES", payload: notes });
+            dispatch({ type: "STATUS", payload: "success" });
+          }
+        } catch (error) {
+          dispatch({ type: "STATUS", payload: "error" });
         }
-      } catch (error) {
-        dispatch({ type: "STATUS", payload: "error" });
       }
     })();
-  }, [dispatch, userId]);
+  }, [dispatch, userId, token]);
   return (
     <div className="player">
       {status === "loading" && !currentVideo && <h1>Loading...</h1>}

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_URL, isInPlayList } from "./util";
-
+import { toast } from "react-toastify";
 //LOADING DATAS
 export const loadVideos = async (dispatch, token) => {
   try {
@@ -31,6 +31,16 @@ export const loadLikedvideos = async (dispatch, token, userId, navigate) => {
       }
     } catch (error) {
       if (error?.response?.status === 401) {
+        toast.error("Session Expired Please Login To Continue", {
+          position: "bottom-right",
+          theme: "dark",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
         return navigate("/login");
       }
       console.log(error);
@@ -145,14 +155,44 @@ export const addToLikedVideos = async ({
           payload: video,
         });
         dispatch({ type: "STATUS", payload: "success" });
+        toast.success(`Video Liked`, {
+          position: "bottom-right",
+          autoClose: 3000,
+          theme: "dark",
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
       return;
     } catch (error) {
       console.log(error);
       dispatch({ type: "STATUS", payload: "error" });
+      return toast.error(`Something Went Wrong , Please try Again`, {
+        position: "bottom-right",
+        autoClose: 3000,
+        theme: "dark",
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
-    return navigate("/login");
   }
+  toast.error("Session Expired Please Login To Continue", {
+    position: "bottom-right",
+    autoClose: 3000,
+    theme: "dark",
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
+  return navigate("/login");
 };
 
 export const addToUnlikedVideos = async ({
@@ -192,8 +232,18 @@ export const addToUnlikedVideos = async ({
       console.log(error);
       dispatch({ type: "STATUS", payload: "error" });
     }
-    return navigate("/login");
   }
+  toast.error("Session Expired Please Login To Continue", {
+    position: "bottom-right",
+    autoClose: 3000,
+    theme: "dark",
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
+  return navigate("/login");
 };
 
 export const addToWatchLater = async ({
@@ -215,13 +265,43 @@ export const addToWatchLater = async ({
       if (status === 201) {
         dispatch({ type: "ADD_TO_WATCHLATER", payload: video });
         dispatch({ type: "STATUS", payload: "success" });
+        toast.success(`Added To Watchlater`, {
+          position: "bottom-right",
+          autoClose: 3000,
+          theme: "dark",
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
       return;
     } catch (error) {
       console.log(error);
       dispatch({ type: "STATUS", payload: "error" });
+      return toast.error(`Something Went Wrong , Please try Again`, {
+        position: "bottom-right",
+        autoClose: 3000,
+        theme: "dark",
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   }
+  toast.error("Session Expired Please Login To Continue", {
+    position: "bottom-right",
+    autoClose: 3000,
+    theme: "dark",
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
   return navigate("/login");
 };
 
@@ -245,14 +325,21 @@ export const removeVideoFromPlaylist = async ({
           `${API_URL}/${genre}/${userId}/${playlistId}/${videoId}`
         );
         if (data.success) {
-          console.log(data.playlistId, data.videoId);
-          console.log(type);
-
           dispatch({
             type: type,
             payload: { playlistId: data.playlistId, videoId: data.videoId },
           });
           dispatch({ type: "STATUS", payload: "success" });
+          toast.warning(`Video Removed from playlist`, {
+            position: "bottom-right",
+            autoClose: 3000,
+            theme: "dark",
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         }
         return;
       }
@@ -267,12 +354,43 @@ export const removeVideoFromPlaylist = async ({
         console.log(_id);
         dispatch({ type: type, payload: _id });
         dispatch({ type: "STATUS", payload: "success" });
+        if (genre !== "unlikedvideos") {
+          toast.warning(`Video Removed from ${genre}`, {
+            position: "bottom-right",
+            autoClose: 3000,
+            theme: "dark",
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        }
       }
     } catch (error) {
       console.log(error);
       dispatch({ type: "STATUS", payload: "error" });
+      toast.error(`Something Went Wrong , Please try Again`, {
+        position: "bottom-right",
+        autoClose: 3000,
+        theme: "dark",
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
     return;
   }
+  toast.error("Session Expired Please Login To Continue", {
+    position: "bottom-right",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
   return navigate("/login");
 };

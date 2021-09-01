@@ -13,7 +13,9 @@ import {
 import { Routes, Route } from "react-router-dom";
 import { Navbar } from "./components";
 import { PrivateRoute } from "./util";
+import { ToastContainer } from "react-toastify";
 import "./App.css";
+import "react-toastify/dist/ReactToastify.min.css";
 function App() {
   return (
     <div className="App">
@@ -32,6 +34,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>
+      <ToastContainer />
     </div>
   );
 }

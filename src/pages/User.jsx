@@ -1,6 +1,7 @@
 import { Delete } from "@material-ui/icons";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { removeVideoFromPlaylist } from "../api_calls";
 import { FooterBar, Sidebar } from "../components";
 import { useAuth } from "../contexts/AuthContext";
@@ -75,6 +76,16 @@ export const User = () => {
               localStorage.removeItem("UserDetails");
               authDispatch({ type: "LOGOUT" });
               setupAuthHeaderForServiceCalls(null);
+              toast.warning(`Logged Out`, {
+                position: "bottom-right",
+                autoClose: 3000,
+                theme: "dark",
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
               navigate("/");
             }}
           >

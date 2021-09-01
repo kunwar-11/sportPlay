@@ -4,6 +4,7 @@ import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { API_URL, signUpValidation } from "../util";
 import "../styles/login.css";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export const Signup = () => {
   const [userInput, setUserInput] = useState({
@@ -37,8 +38,29 @@ export const Signup = () => {
         });
         if (success) {
           navigate("/login");
+          toast.success("Sign Up Successfull", {
+            position: "bottom-right",
+            theme: "dark",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         }
-      } catch (error) {}
+      } catch (error) {
+        toast.error("Unable To Sign Up Please Try Again", {
+          position: "bottom-right",
+          theme: "dark",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
     }
     return console.log("not validated");
   };

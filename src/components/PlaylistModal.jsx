@@ -1,10 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
+import { toast } from "react-toastify";
 import { useAuth } from "../contexts/AuthContext";
 import { useData } from "../contexts/DataContext";
 import "../styles/playlistmodal.css";
-import { API_URL, findVideo, isInPlayList } from "../util";
+import { API_URL, findVideo, isInPlayList, navigateToLogin } from "../util";
 const PlaylistModal = ({ setOpenPlaylistModal }) => {
   const {
     state: { playlists, videos },
@@ -35,6 +36,16 @@ const PlaylistModal = ({ setOpenPlaylistModal }) => {
           dispatch({ type: "STATUS", payload: "success" });
           setPlaylistName("");
           setAddPlaylist(false);
+          toast.success(`Playlist Created`, {
+            position: "bottom-right",
+            autoClose: 3000,
+            theme: "dark",
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         }
       } catch (error) {
         console.log(error);
@@ -42,6 +53,16 @@ const PlaylistModal = ({ setOpenPlaylistModal }) => {
       }
       return;
     }
+    toast.error(`Session Expired Please Login To Continue`, {
+      position: "bottom-right",
+      autoClose: 3000,
+      theme: "dark",
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
     return navigate("/login");
   };
   const addOrRemovePlaylistHandler = async (playlist) => {
@@ -59,6 +80,16 @@ const PlaylistModal = ({ setOpenPlaylistModal }) => {
             payload: { videoId, playlistId },
           });
           dispatch({ type: "STATUS", payload: "success" });
+          toast.warning(`Video Removed from Playlist`, {
+            position: "bottom-right",
+            autoClose: 3000,
+            theme: "dark",
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         }
       } catch (error) {
         console.log(error);
@@ -83,6 +114,16 @@ const PlaylistModal = ({ setOpenPlaylistModal }) => {
           },
         });
         dispatch({ type: "STATUS", payload: "success" });
+        toast.success(`Video Added To Playlist`, {
+          position: "bottom-right",
+          autoClose: 3000,
+          theme: "dark",
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
     } catch (error) {
       console.log(error);
@@ -123,7 +164,7 @@ const PlaylistModal = ({ setOpenPlaylistModal }) => {
                   onChange={() =>
                     token
                       ? addOrRemovePlaylistHandler(each)
-                      : navigate("/login")
+                      : () => navigateToLogin(navigate)
                   }
                 />
                 <label>{each.name}</label>

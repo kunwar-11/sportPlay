@@ -8,7 +8,7 @@ import {
   WatchLater,
   PlaylistAdd,
 } from "@material-ui/icons";
-import { isInPlayList } from "../util";
+import { isInPlayList, navigateToLogin } from "../util";
 import "../styles/videobar.css";
 import { useData } from "../contexts/DataContext";
 import PlaylistModal from "./PlaylistModal";
@@ -130,7 +130,9 @@ export const VideoBar = ({ video }) => {
           )}
           <PlaylistAdd
             onClick={() =>
-              token ? setOpenPlaylistModal(true) : navigate("/login")
+              token
+                ? setOpenPlaylistModal(true)
+                : () => navigateToLogin(navigate)
             }
           />
         </div>

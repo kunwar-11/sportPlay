@@ -11,7 +11,7 @@ export const LikedVideos = () => {
   return (
     <div className="home">
       <Sidebar />
-      {status === "loading" && <h1>Loading...</h1>}
+      {status === "loading" && !likedVideos && <h1>Loading...</h1>}
       {likedVideos && (
         <>
           {likedVideos.length > 0 ? (

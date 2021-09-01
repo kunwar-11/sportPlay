@@ -2,11 +2,12 @@ import { Delete } from "@material-ui/icons";
 import axios from "axios";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { FooterBar, Sidebar } from "../components";
 import { useAuth } from "../contexts/AuthContext";
 import { useData } from "../contexts/DataContext";
 import "../styles/playlist.css";
-import { API_URL } from "../util";
+import { API_URL, navigateToLogin } from "../util";
 export const Playlists = () => {
   const {
     state: { playlists, status },
@@ -25,6 +26,16 @@ export const Playlists = () => {
       if (success) {
         dispatch({ type: "DELETE_PLAYLIST", payload: data.playlistId });
         dispatch({ type: "STATUS", payload: "success" });
+        toast.warning(`Playlist Removed`, {
+          position: "bottom-right",
+          autoClose: 3000,
+          theme: "dark",
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
     } catch (error) {
       console.log(error);
@@ -73,7 +84,7 @@ export const Playlists = () => {
                           onClick={() =>
                             token
                               ? deletePlaylist(each._id)
-                              : navigate("/login")
+                              : navigateToLogin(navigate)
                           }
                         />
                       </div>
