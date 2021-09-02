@@ -21,7 +21,9 @@ const VideoCard = ({
       <div className="videoDescription">
         <Avatar src={image} />
         <div className="videoTexts">
-          <p className="videoTitle">{truncateTitle(title)}</p>
+          <Link to={`/videos/${_id}`}>
+            <p className="videoTitle">{truncateTitle(title)}</p>
+          </Link>
           <div className="videoStats">
             <small className="text__muted channel">{channel}</small>
             <small className="text__muted">
