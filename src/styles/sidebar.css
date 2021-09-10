@@ -1,0 +1,26 @@
+.sidebar {
+  padding-top: 1rem;
+  background-color: rgb(252, 252, 244);
+  height: 100%;
+}
+.sidebar__list {
+  position: sticky;
+  top: 68px;
+  left: 0;
+}
+.list__stack__item {
+  border: none;
+  background-color: inherit;
+}
+.list__stack__item:hover {
+  background-color: rgba(241, 203, 222, 0.7);
+}
+.activePill {
+  background-color: rgba(241, 203, 222, 0.8);
+  font-weight: bold;
+}
+@media screen and (max-width: 769px) {
+  .sidebar {
+    display: none;
+  }
+}

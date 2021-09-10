@@ -1,0 +1,40 @@
+.videocard {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+.videoThumbnail > img {
+  width: 100%;
+  object-fit: cover;
+}
+.videoDescription {
+  display: flex;
+  justify-content: space-between;
+}
+.videoStats {
+  display: flex;
+  flex-direction: column;
+}
+.videoTexts {
+  margin-left: 0.5rem;
+}
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+.channel:hover {
+  color: rgb(99, 99, 99);
+}
+@media screen and (min-width: 768px) {
+  .videoThumbnail > img {
+    max-height: 200px;
+    object-fit: cover;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .videoTitle {
+    font-size: 0.9rem;
+  }
+}

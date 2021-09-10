@@ -1,0 +1,16 @@
+.history {
+  padding: 0.5rem 0rem;
+  display: flex;
+  overflow-x: scroll;
+  margin-left: 1rem;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+@media screen and (min-width: 769px) {
+  .history {
+    width: 1300px;
+  }
+}
